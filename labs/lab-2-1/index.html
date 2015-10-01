@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Книги по категориям</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="ru"/>
+    <link rel="stylesheet" type="text/css" href="lab-2-1.css"/>
+    <script type="text/javascript" src="../../demo/objectAjax.js"></script>
+    <script type="text/javascript">
+        /*
+         **
+         **	Задание 1. Список категорий
+         **
+         */
+        var req;
+        function fillCategories() {
+            req = getXmlHttpRequest();
+            req.open("GET", "getcategories.php", true);
+            req.send(null);
+            req.onreadystatechange = function(){
+                if(req.readyState != 4)
+                    return;
+                //список selCategory
+                var selCategory = document.getElementById("selCategory");
+                //строка ответа
+                var responseText = new String(req.responseText);
+                // делим строку на массив
+                var cats = responseText.split("\n");
+                //создаем option
+                for(var i = 0; i<cats.length; i++){
+                    if(cats[i] == '')
+                        continue;
+                    //делим строку по символу
+                    var parts = cats[i].split(":");
+                    //создаем новый option
+                    var option = document.createElement("option");
+                    option.setAttribute("value", parts[0]);
+                    var optionText = document.createTextNode(parts[1]);
+                    option.appendChild(optionText);
+                    selCategory.appendChild(option);
+                }
+                console.log(cats);
+
+            }
+        }
+
+
+        // При завершении загрузки страницы
+        window.onload = function () {
+            fillCategories();
+        }
+
+    </script>
+</head>
+<body>
+<h1>Книги по категориям</h1>
+
+<form action="#" onsubmit="return false">
+    <div>
+        <label for="selCategory">Категория</label>
+        <select id="selCategory"></select>
+        <button onclick="alert('А это следующая лабораторная работа')">Показать</button>
+    </div>
+</form>
+</body>
+</html>
+

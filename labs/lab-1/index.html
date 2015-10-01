@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <title>Лабораторная работа 1</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Language" content="ru"/>
+    <script src="../../demo/objectAjax.js"></script>
+    <!--
+        **
+        **	Задание 1. Создание объекта XmlHttpRequest
+        **
+    -->
+    <script type="text/javascript">
+        var req;
+        var url = "getbooktxt.php?num=";
+        /*
+         **
+         **	Задание 2. Выборка книги
+         **
+         */
+        function getBookByNumber(num) {
+            req = getXmlHttpRequest();
+            req.open("GET", url+num, true);
+            req.send(null);
+
+            req.onreadystatechange = function () {
+                if(req.readyState != 4) {
+                    return;
+                }
+                var result = document.getElementById("divResult");
+                result.firstChild.nodeValue = req.responseText;
+            }
+        }
+
+
+        /*
+         **
+         **	Задание 3. Обработчик кнопки
+         **
+         */
+        function showBook(){
+            var book = document.getElementById("txtNum");
+            getBookByNumber(book.value);
+        }
+
+    </script>
+</head>
+<body>
+<h1>Лабораторная работа 1</h1>
+
+<form action="#" onsubmit="return false">
+    <label for="txtNum">Введите номер книги:</label>
+    <input id="txtNum" type="text"/>
+    <button onclick="showBook()">Поиск</button>
+</form>
+<div id="divResult">&nbsp;</div>
+</body>
+</html>
